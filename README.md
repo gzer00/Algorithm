@@ -23,7 +23,7 @@
 │   ├── minwook/
 │   │   ├── BOJ_1000.java
 │   │   └── README.md
-│   ├── jiwon/
+│   ├── jiyoung/
 │   │   └── BOJ_1000.py
 │   └── ...
 ├── Week02/
@@ -39,7 +39,7 @@
 | 항목 | 규칙 | 예시 |
 |------|------|------|
 | 주차 폴더 | `Week01`, `Week02`, ... | `Week05` |
-| 이름 폴더 | 영어 이름 또는 GitHub ID | `minwook`, `jiwon` |
+| 이름 폴더 | 영어 이름 또는 GitHub ID | `minwook`, `jiyoung` |
 | 파일 이름 | `[플랫폼]_[문제번호].[확장자]` | `BOJ_1000.py`, `PGS_42576.java` |
 
 ### 플랫폼 약어 예시
