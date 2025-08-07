@@ -35,28 +35,3 @@ int main (){
 
 	return 0;
 }
-
-/*
-int main (){
-	int n, m;	//n까지의 수 중 m개의 수열
-	cin >> n >> m;
-
-	vector<bool> used(m, true);		//n개의 수 중 수열에 포함될 m개의 숫자만 true
-	used.insert(used.end(), n - m, false);
-
-	do {	//수열에 포함될 m개의 숫자 고르는 과정
-		vector<int> permutation;	//수열 백터
-		for (int i = 0; i < n; i++) {
-			if (used[i])	//수열에 포함될 숫자
-				permutation.push_back(i + 1);
-		}
-		do {	//수열의 순서를 바꿔가며 출력하는 과정
-			for (int num : permutation)
-				cout << num << " ";
-			cout << endl;
-		} while (next_permutation(permutation.begin(), permutation.end()));
-	} while (next_permutation(used.begin(), used.end()));
-
-	return 0;
-}
-*/
