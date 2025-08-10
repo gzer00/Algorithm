@@ -1,3 +1,8 @@
+/*
+ * N과 M (1)
+ * 중복을 허용하지 않은 순열 알고리즘 사용
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
