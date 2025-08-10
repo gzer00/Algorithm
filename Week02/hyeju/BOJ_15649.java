@@ -1,10 +1,14 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
-class BOJ_15649 {	
+class Main {	
 	
 	static int[] arr;
 	static int[] t;
+	
+	static ArrayList<String> result = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -20,11 +24,20 @@ class BOJ_15649 {
 		}
 		
 		perm(n, m);
+		
+		Collections.sort(result);
+		
+		for (int i = 0; i < result.size(); i++) {
+			String modified = result.get(i).replace("[", "")
+											.replace("]", "")
+											.replace(",", "");
+			System.out.println(modified);
+		}
 	}
 	
 	static void perm(int n, int r) {
 		if (r == 0) {
-			System.out.println(Arrays.toString(t));
+			result.add(Arrays.toString(t));
 		} else {
 			for (int i = n - 1; i >= 0; i--) {
 				swap(i, n-1);

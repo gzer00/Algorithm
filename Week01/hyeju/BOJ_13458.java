@@ -1,4 +1,4 @@
-// 시험 감
+// 시험 감독
 
 import java.util.Scanner;
 
