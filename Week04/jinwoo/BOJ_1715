@@ -1,0 +1,69 @@
+import java.io.*;
+import java.util.*;
+
+// 백준 카드 정렬하기 (골드 4)
+
+public class BOJ_1715 {
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int N = Integer.parseInt(br.readLine());
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+        for (int i = 0; i < N; i++) {
+
+            pq.offer(Integer.parseInt(br.readLine()));
+
+        }
+
+        int answer = 0;
+
+        while (pq.size() != 1) {
+
+            int num = pq.poll();
+            int num2 = pq.poll();
+            int sum = num + num2;
+
+            answer = answer + sum;
+
+            pq.offer(sum);
+        }
+
+        bw.write(String.valueOf(answer));
+
+//        ArrayList<Integer> al = new ArrayList<>();
+//
+//        for (int i = 0; i < N; i++) {
+//
+//            al.add(Integer.parseInt(br.readLine()));
+//
+//        }
+//
+//        Collections.sort(al);
+//
+//        int sum = 0;
+//
+//        while (al.size() != 1) {
+//
+//            int num = al.remove(0);
+//            int num2 = al.remove(0);
+//
+//            sum = sum + (num + num2);
+//
+//            al.add(num+num2);
+//
+//            Collections.sort(al);
+//
+//        }
+//
+//        bw.write(String.valueOf(sum));
+
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
