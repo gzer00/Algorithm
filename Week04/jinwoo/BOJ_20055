@@ -1,0 +1,134 @@
+import java.io.*;
+import java.util.StringTokenizer;
+
+// 백준 컨베이어 벨트 위의 로봇 (골드 5)
+
+public class BOJ_20055 {
+
+    public static void main(String[] args) throws IOException {
+
+        // GPT한테 물어본 것
+        // 1. 내리는 위치는 내구도 상관 없어? -> 단계별 첫번째 과정인 회전에서만, 두번째 과정인 로봇 이동에선 고려함
+        // 2. 맨 처음 회전은 로봇이 아무것도 안 올라간 상태에서 하는 거 맞음? -> ㅇㅇ
+        // 3. 올리는 위치 내구도 0 되면 옆칸에? -> 올리는 위치는 인덱스 0 고정, 회전할 때 마다 칸 바뀜
+        // 4. 매 단계마다 로봇은 최대 2번 이동하는 거네? -> ㅇㅇ
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+
+        int[] arr = new int[N * 2];
+        boolean[] visited = new boolean[N * 2];
+
+        st = new StringTokenizer(br.readLine());
+
+        for (int i = 0; i < N * 2; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        // 내구도가 0인 칸의 개수
+        int zeroNum = 0;
+        // 시작 시 내구도가 이미 0인 칸을 세어 둔다 (누락 시 무한루프 가능)
+        for (int v : arr) if (v == 0) zeroNum++;
+
+        // 단계
+        int step = 1;
+
+        // 맨 처음 로봇 위치
+        int firstRobot = 0; // (로직상 사용하지 않지만, 기존 형태 유지)
+
+        // 현재 컨베이어 벨트 위 로봇 개수
+        int robotCnt = 0;
+
+        // 내구도가 0인 칸이 K개 이상이면 종료
+        while (!(zeroNum >= K)) {
+
+            // 1. 벨트가 각 칸 위에 있는 로봇과 함께 한 칸 회전한다.
+            // ***중요*** 회전은 앞에서 뒤로 복사하면 덮어쓰기 발생 → 반드시 뒤에서 앞으로 밀기
+            // 컨베이어 벨트 위에 로봇이 하나 이상 있으면
+            if (robotCnt >= 1) {
+                // 칸/로봇 동시 회전: 뒤에서 앞으로
+                int lastD = arr[N * 2 - 1];
+                boolean lastR = visited[N * 2 - 1];
+                for (int i = N * 2 - 1; i >= 1; i--) {
+                    arr[i] = arr[i - 1];
+                    visited[i] = visited[i - 1];
+                }
+                arr[0] = lastD;
+                visited[0] = lastR;
+
+                // 회전 후 내리는 위치(N-1)에 로봇이 있으면 즉시 내린다
+                if (visited[N - 1]) {
+                    visited[N - 1] = false;
+                    robotCnt--;
+                }
+
+            } else { // 컨베이어 벨트 위에 로봇이 없으면
+                // 칸만 회전 (뒤에서 앞으로)
+                int lastD = arr[N * 2 - 1];
+                for (int i = N * 2 - 1; i >= 1; i--) {
+                    arr[i] = arr[i - 1];
+                }
+                arr[0] = lastD;
+                // 로봇이 없으므로 visited는 전부 false 상태 유지
+            }
+
+            // 2. 가장 먼저 벨트에 올라간 로봇부터, 벨트가 회전하는 방향으로 한 칸 이동할 수 있다면 이동한다. 만약 이동할 수 없다면 가만히 있는다.
+            // 로봇이 이동하기 위해서는 이동하려는 칸에 로봇이 없으며, 그 칸의 내구도가 1 이상 남아 있어야 한다.
+
+            // 컨베이어 벨트 위의 로봇이 1개 이상 일 때
+            // 1개 미만 일 땐 과정 생략
+            if (robotCnt >= 1) {
+                // ***중요*** 로봇 이동은 뒤에서 앞으로 처리해야 같은 단계에서 이중 이동/끼어들기 방지
+                // 위쪽(0..N-2) 구간만 의미가 있음 (N-1은 내리는 위치)
+                for (int i = N - 2; i >= 0; i--) {
+                    if (visited[i]) {
+                        // 다음 칸이 내리는 칸이면: 로봇 내려감 (내구도 조건도 체크)
+                        if (!visited[i + 1] && arr[i + 1] >= 1) {
+                            visited[i] = false;
+                            if (i + 1 == N - 1) {
+                                // 내리는 칸으로 이동 → 즉시 내림
+                                robotCnt--;
+                            } else {
+                                visited[i + 1] = true;
+                            }
+                            // 옮긴 칸 내구도 1 감소
+                            arr[i + 1]--;
+                            if (arr[i + 1] == 0) zeroNum++;
+                        }
+                    }
+                }
+                // 이동 후에도 혹시 내리는 위치에 로봇이 남았다면 내려준다(이중 안전장치)
+                if (visited[N - 1]) {
+                    visited[N - 1] = false;
+                    robotCnt--;
+                }
+            }
+
+            // 3. 올리는 위치에 있는 칸의 내구도가 0이 아니면 올리는 위치에 로봇을 올린다.
+            if (arr[0] >= 1 && !visited[0]) {
+                robotCnt++;
+                visited[0] = true;
+
+                arr[0]--;
+
+                // 감소 시킨 내구도가 0이 됐을 경우
+                if (arr[0] == 0) {
+                    zeroNum++;
+                }
+            }
+
+            step++;
+        }
+
+        bw.write(String.valueOf(step - 1)); // step은 루프 말미에 ++되므로 실제 단계 수는 -1
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
