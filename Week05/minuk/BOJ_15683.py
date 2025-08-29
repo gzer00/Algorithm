@@ -46,7 +46,7 @@ def dfs(idx):
             elif t == 2: # 0 2 // 01 23
                     move(x, y, copy_graph, d)
                     move(x, y, copy_graph, d+1)
-            elif t == 3: # 0 1 2 3 // 02, 21, 13, 30
+            elif t == 3: # 0 1 2 3 // 02, 12, 13, 03
                 if d == 0 or d == 1:
                     move(x, y, copy_graph, d)
                     move(x, y, copy_graph, d+2)
