@@ -1,6 +1,6 @@
 # 여왕 개미
 
-[문제 링크](https://www.acmicpc.net/problem/24551)
+[문제 링크]([https://www.acmicpc.net/problem/24551](https://www.codetree.ai/ko/frequent-problems/samsung-sw/problems/queen-ant/description)
 
 ### 성능 요약
 
